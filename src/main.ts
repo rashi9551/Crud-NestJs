@@ -5,6 +5,8 @@ import * as swaggerUi from 'swagger-ui-express';
 import * as path from 'path';
 import * as fs from 'fs';
 import { ValidationPipe } from '@nestjs/common';
+import { Connection } from 'mongoose';
+import { getConnectionToken } from '@nestjs/mongoose';
 
 
 async function bootstrap() {
