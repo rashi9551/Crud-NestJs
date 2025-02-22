@@ -16,6 +16,16 @@ import { UserDocument } from './schemas/user.schema';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get(':id')
+  getUser(@Param('id') id: string): Promise<UserDocument> {
+    return this.userService.getUser(id);
+  }
+
+  @Get()
+  getAllUsers(): Promise<UserDocument[]> {
+    return this.userService.getAllUsers();
+  }
+
   @Post()
   createUser(
     @Body(new ValidationPipe({ whitelist: true })) userData: CreateUserDto,
@@ -35,15 +45,5 @@ export class UserController {
   @Delete(':id')
   removeUser(@Param('id') id: string) {
     return this.userService.removeUser(id);
-  }
-
-  @Get(':id')
-  getUser(@Param('id') id: string): Promise<UserDocument> {
-    return this.userService.getUser(id);
-  }
-
-  @Get()
-  getAllUser(): Promise<UserDocument[]> {
-    return this.userService.getAllUser();
   }
 }

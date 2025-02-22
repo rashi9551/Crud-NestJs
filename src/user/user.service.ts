@@ -12,6 +12,21 @@ import { CreateUserDto, UpdateUserDto } from 'src/dto/user.dto';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
+  async getUser(id: string): Promise<UserDocument> {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`Invalid ID format: ${id}`);
+    }
+    let user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return user;
+  }
+
+  async getAllUsers(): Promise<UserDocument[]> {
+    return await this.userModel.find();
+  }
+
   async createUser(userData: CreateUserDto): Promise<UserDocument> {
     return await this.userModel.create(userData);
   }
@@ -31,7 +46,7 @@ export class UserService {
     return user.save();
   }
 
-  async removeUser(id: string) {
+  async removeUser(id: string): Promise<{ message: string }> {
     if (!isValidObjectId(id)) {
       throw new BadRequestException(`Invalid ID format: ${id}`);
     }
@@ -43,19 +58,5 @@ export class UserService {
     }
 
     return { message: `User with ID ${id} deleted successfully` };
-  }
-
-  async getUser(id: string): Promise<UserDocument> {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`Invalid ID format: ${id}`);
-    }
-    let user = await this.userModel.findById(id);
-    if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
-    }
-    return user;
-  }
-  async getAllUser(): Promise<UserDocument[]> {
-    return await this.userModel.find();
   }
 }
