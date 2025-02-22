@@ -59,7 +59,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = HttpStatus.UNAUTHORIZED;
       message = exception.message ?? 'Unauthorized access';
     }
-   
 
     // Handle Forbidden Errors
     if (exception instanceof ForbiddenException) {

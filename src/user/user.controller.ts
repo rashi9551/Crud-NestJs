@@ -31,7 +31,6 @@ export class UserController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   createUser(
     @Body(new ValidationPipe({ whitelist: true })) userData: CreateUserDto,
   ): Promise<UserDocument> {

@@ -1,10 +1,19 @@
 // jwt-auth.guard.ts
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
@@ -21,7 +30,9 @@ export class JwtAuthGuard implements CanActivate {
 
     try {
       // Verify token using the same secret used to sign it
-      const payload = this.jwtService.verify(token, { secret: 'Rashid' });
+      const payload = this.jwtService.verify(token, {
+        secret: this.configService.get<string>('Rashid'),
+      });
       // Attach the decoded payload to the request object for further use
       request.user = payload;
     } catch (error) {
