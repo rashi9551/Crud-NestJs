@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { isValidObjectId, Model } from 'mongoose';
 import { CreateUserDto, UpdateUserDto } from 'src/dto/user.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,14 @@ export class UserService {
   }
 
   async createUser(userData: CreateUserDto): Promise<UserDocument> {
-    return await this.userModel.create(userData);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+    const newUser = await this.userModel.create({
+      ...userData,
+      password: hashedPassword,
+    });
+
+    return newUser;
   }
 
   async updateUser(
@@ -58,5 +66,13 @@ export class UserService {
     }
 
     return { message: `User with ID ${id} deleted successfully` };
+  }
+
+  async getUserByEmail(email: string): Promise<UserDocument> {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+    return user;
   }
 }
