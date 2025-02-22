@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
-import { Model } from 'mongoose';
-import { CreateUserDto } from 'src/dto/user.dto';
+import { isValidObjectId, Model } from 'mongoose';
+import { CreateUserDto, UpdateUserDto } from 'src/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -10,5 +10,20 @@ export class UserService {
 
   async createUser(userData: CreateUserDto): Promise<UserDocument> {
     return await this.userModel.create(userData);
+  }
+
+  async updateUser(
+    id: string,
+    updateUserData: UpdateUserDto,
+  ): Promise<UserDocument> {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`Invalid ID format: ${id}`);
+    }
+    let user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    Object.assign(user, updateUserData);
+    return user.save();
   }
 }

@@ -6,17 +6,6 @@
     "version": "1.0"
   },
   "paths": {
-    "/users": {
-      "get": {
-        "summary": "Get all users",
-        "operationId": "UserController_getUsers",
-        "responses": {
-          "200": {
-            "description": "Successful response"
-          }
-        }
-      }
-    },
     "/user": {
       "post": {
         "summary": "Create a new user",
@@ -64,6 +53,67 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "put": {
+        "summary": "Update an existing user",
+        "operationId": "UserController_updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Haseeb" },
+                  "email": { "type": "string", "example": "dfef@example.com" },
+                  "password": { "type": "string", "example": "securePass123" },
+                  "roles": { "type": "string", "example": "BO" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" },
+                    "roles": { "type": "string" },
+                    "__v": { "type": "integer" }
+                  },
+                  "example": {
+                    "_id": "67b97bd0462c072ad4aa689d",
+                    "name": "Haseeb",
+                    "email": "sdfew@example.com",
+                    "password": "securePass123",
+                    "roles": "BO",
+                    "__v": 0
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
