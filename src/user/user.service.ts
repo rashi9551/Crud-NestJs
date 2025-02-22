@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { isValidObjectId, Model } from 'mongoose';
@@ -25,5 +29,19 @@ export class UserService {
     }
     Object.assign(user, updateUserData);
     return user.save();
+  }
+
+  async removeUser(id: string) {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`Invalid ID format: ${id}`);
+    }
+
+    const result = await this.userModel.deleteOne({ _id: id });
+
+    if (result.deletedCount === 0) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return { message: `User with ID ${id} deleted successfully` };
   }
 }

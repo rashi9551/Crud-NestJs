@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -24,10 +25,15 @@ export class UserController {
 
   @Put(':id')
   updateUser(
-    @Param('id', new ValidationPipe({ whitelist: true })) id: string,
+    @Param('id') id: string,
     @Body(new ValidationPipe({ whitelist: true }))
     updateUserData: UpdateUserDto,
   ): Promise<UserDocument> {
     return this.userService.updateUser(id, updateUserData);
+  }
+
+  @Delete(':id')
+  removeUser(@Param('id') id: string) {
+    return this.userService.removeUser(id);
   }
 }

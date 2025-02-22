@@ -72,7 +72,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message = exception.message ?? 'Resource not found'; // ✅ Uses the actual error message
     }
 
-    if ((exception as any)?.name === 'CastError' && (exception as any)?.kind === 'ObjectId') {
+    if (
+      (exception as any)?.name === 'CastError' &&
+      (exception as any)?.kind === 'ObjectId'
+    ) {
       status = HttpStatus.BAD_REQUEST;
       message = `Invalid ID format: ${(exception as any).value}`;
     }
