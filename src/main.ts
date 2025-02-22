@@ -5,6 +5,7 @@ import * as swaggerUi from 'swagger-ui-express';
 import * as path from 'path';
 import * as fs from 'fs';
 import { ValidationPipe } from '@nestjs/common';
+import { AllExceptionsFilter } from './fliters/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,6 +32,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.useGlobalFilters(new AllExceptionsFilter());
+
 
   const port = configService.get<number>('PORT');
   await app.listen(port || 3000, () =>
