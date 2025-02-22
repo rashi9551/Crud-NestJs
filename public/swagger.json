@@ -7,6 +7,43 @@
   },
   "paths": {
     "/user": {
+      "get": {
+        "summary": "Get all users",
+        "description": "Retrieves a list of all users",
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponse"
+                  }
+                },
+                "example": [
+                  {
+                    "_id": "67b98cfb1a73f83c73eebab2",
+                    "name": "haseeb",
+                    "email": "sas@example.com",
+                    "password": "securePass123",
+                    "roles": "BO",
+                    "__v": 0
+                  },
+                  {
+                    "_id": "67b990868c811c71c47e5a17",
+                    "name": "haseesdfb",
+                    "email": "d@example.com",
+                    "password": "securePass123",
+                    "roles": "BO",
+                    "__v": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
       "post": {
         "summary": "Create a new user",
         "requestBody": {
@@ -38,6 +75,24 @@
       }
     },
     "/user/{id}": {
+      "get": {
+        "summary": "Get a user by ID",
+        "parameters": [
+          { "$ref": "#/components/parameters/UserId" }
+        ],
+        "responses": {
+          "200": {
+            "description": "User retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UserResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
       "put": {
         "summary": "Update an existing user",
         "parameters": [

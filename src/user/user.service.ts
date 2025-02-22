@@ -44,4 +44,18 @@ export class UserService {
 
     return { message: `User with ID ${id} deleted successfully` };
   }
+
+  async getUser(id: string): Promise<UserDocument> {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`Invalid ID format: ${id}`);
+    }
+    let user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return user;
+  }
+  async getAllUser(): Promise<UserDocument[]> {
+    return await this.userModel.find();
+  }
 }

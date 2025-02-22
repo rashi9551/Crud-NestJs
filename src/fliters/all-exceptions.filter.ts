@@ -17,7 +17,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    console.error('🚨 Exception Caught:', exception);
+    // console.error('🚨 Exception Caught:', exception);
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Something went wrong';
 

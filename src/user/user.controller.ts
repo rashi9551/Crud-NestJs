@@ -36,4 +36,14 @@ export class UserController {
   removeUser(@Param('id') id: string) {
     return this.userService.removeUser(id);
   }
+
+  @Get(':id')
+  getUser(@Param('id') id: string): Promise<UserDocument> {
+    return this.userService.getUser(id);
+  }
+
+  @Get()
+  getAllUser(): Promise<UserDocument[]> {
+    return this.userService.getAllUser();
+  }
 }

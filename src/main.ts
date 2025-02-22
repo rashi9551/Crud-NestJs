@@ -6,6 +6,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './fliters/all-exceptions.filter';
+import * as morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,8 @@ async function bootstrap() {
     ),
   );
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+  app.use(morgan('dev'));
 
   app.enableCors({
     origin: ['*'],
