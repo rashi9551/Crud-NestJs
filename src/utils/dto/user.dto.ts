@@ -6,7 +6,7 @@ import {
   IsEnum,
   IsNotEmpty,
 } from 'class-validator';
-import { UserRole } from 'src/enum/user.enum';
+import { UserRole } from 'src/utils/enum/user.enum';
 import { PartialType } from '@nestjs/mapped-types';
 
 export class CreateUserDto {

@@ -5,7 +5,7 @@ import * as swaggerUi from 'swagger-ui-express';
 import * as path from 'path';
 import * as fs from 'fs';
 import { ValidationPipe } from '@nestjs/common';
-import { AllExceptionsFilter } from './fliters/all-exceptions.filter';
+import { AllExceptionsFilter } from './utils/fliters/all-exceptions.filter';
 import * as morgan from 'morgan';
 
 async function bootstrap() {

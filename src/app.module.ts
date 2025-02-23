@@ -3,8 +3,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EmailService } from './email/email.service';
-import { EmailModule } from './email/email.module';
+import { EmailService } from './utils/email/email.service';
+import { EmailModule } from './utils/email/email.module';
 
 @Module({
   imports: [

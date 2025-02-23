@@ -10,9 +10,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto } from 'src/dto/user.dto';
+import { CreateUserDto, UpdateUserDto } from 'src/utils/dto/user.dto';
 import { UserDocument } from './schemas/user.schema';
-import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/utils/guards/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {

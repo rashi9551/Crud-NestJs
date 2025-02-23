@@ -6,9 +6,9 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { isValidObjectId, Model } from 'mongoose';
-import { CreateUserDto, UpdateUserDto } from 'src/dto/user.dto';
+import { CreateUserDto, UpdateUserDto } from 'src/utils/dto/user.dto';
 import * as bcrypt from 'bcryptjs';
-import { EmailService } from 'src/email/email.service';
+import { EmailService } from 'src/utils/email/email.service';
 
 @Injectable()
 export class UserService {
