@@ -20,6 +20,12 @@ export class User {
     enum: UserRole,
   })
   roles: string;
+
+  @Prop()
+  otp: string;
+
+  @Prop()
+  otpExpiry: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

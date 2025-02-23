@@ -8,10 +8,11 @@ import { User, UserDocument } from './schemas/user.schema';
 import { isValidObjectId, Model } from 'mongoose';
 import { CreateUserDto, UpdateUserDto } from 'src/dto/user.dto';
 import * as bcrypt from 'bcryptjs';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,private readonly emailService: EmailService,) {}
 
   async getUser(id: string): Promise<UserDocument> {
     if (!isValidObjectId(id)) {
@@ -30,11 +31,22 @@ export class UserService {
 
   async createUser(userData: CreateUserDto): Promise<UserDocument> {
     const hashedPassword = await bcrypt.hash(userData.password, 10);
+    
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // Set OTP expiry time (e.g., 10 minutes from now)
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
+    // Create the new user, including the OTP and expiry
     const newUser = await this.userModel.create({
       ...userData,
       password: hashedPassword,
+      otp,
+      otpExpiry,
     });
+
+    // Send the OTP via email (or SMS)
+    await this.emailService.sendOtpEmail(newUser.email, otp);
 
     return newUser;
   }

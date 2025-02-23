@@ -10,4 +10,11 @@ export class AuthController {
   login(@Body(new ValidationPipe({ whitelist: true })) authData: AuthUserDto) {
     return this.authService.login(authData.email, authData.password);
   }
+
+  @Post('verify-otp')
+  async verifyOtp(
+    @Body() body: { otp: string; email: string },
+  ): Promise<{ message: string }> {
+    return this.authService.verifyOtp(body);
+  }
 }

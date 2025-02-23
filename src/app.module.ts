@@ -3,6 +3,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { EmailService } from './email/email.service';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -10,6 +12,8 @@ import { MongooseModule } from '@nestjs/mongoose';
     UserModule,
     AuthModule,
     MongooseModule.forRoot('mongodb://localhost/nest'),
+    EmailModule,
   ],
+  providers: [EmailService],
 })
 export class AppModule {}
